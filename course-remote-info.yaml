@@ -218,8 +218,6 @@ topics:
     theory_id: 5350
   - title: Deque
     theory_id: 5356
-  - title: Computer programming
-    theory_id: 8739
   - title: Queue and Stack
     theory_id: 3576
   - title: Synchronous, asynchronous, parallel

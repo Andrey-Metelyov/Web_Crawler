@@ -443,5 +443,18 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/projects/59/stages/320/implement
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Wrong answer in test #12
+
+    Your app shows a link to the page that is unavailable. You shouldn&#39;t add to the table unavailable links.
+
+    Please find below the output of your program during this failed test.
+
+    ---
+
+    http://localhost:25555/exampleDotCom
+    URLRecord{url=&#39;unavailablePage&#39;, title=&#39;More information...&#39;}
+  time: Sat, 19 Sep 2020 06:36:14 UTC
 record: -1

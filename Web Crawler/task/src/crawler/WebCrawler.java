@@ -2,15 +2,17 @@ package crawler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +36,24 @@ public class WebCrawler extends JFrame {
                     "url='" + url + '\'' +
                     ", title='" + title + '\'' +
                     '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            URLRecord urlRecord = (URLRecord) o;
+
+            if (!url.equals(urlRecord.url)) return false;
+            return title.equals(urlRecord.title);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = url.hashCode();
+            result = 31 * result + title.hashCode();
+            return result;
         }
     }
 
@@ -96,16 +116,116 @@ public class WebCrawler extends JFrame {
     }
 
     private void parseClicked() {
-
-        String siteText = getWebPage();
+        String address = textField.getText();
+        String siteText = getWebPage(address);
 //        System.out.println(siteText);
 //        System.out.println("siteText:\n" + siteText);
         String title = findTitle(siteText);
 //        System.out.println("Title: " + title);
         titleValueLabel.setText(title);
-        List<URLRecord> urls = getURLs(siteText);
+        List<String> aTags = getATags(siteText);
+        List<String> hrefAttributes = getHrefAttributes(aTags);
+        System.out.println("hrefAttributes: " + hrefAttributes);
+        List<String> links = fixLinks(address, hrefAttributes);
+        System.out.println("links: " + links);
+        List<URLRecord> urls = crawlLinks(links);
+        URLRecord current = new URLRecord(address, title);
+        if (!urls.contains(current)) {
+            urls.add(current);
+        }
         clearTable();
         fillTable(urls);
+    }
+
+    private List<URLRecord> crawlLinks(List<String> links) {
+        List<URLRecord> result = new ArrayList<>();
+        for (String link : links) {
+            Optional<URLRecord> res = visitPage(link);
+            if (res.isPresent()) {
+                result.add(res.get());
+                System.out.println(res.get());
+            }
+        }
+        return result;
+    }
+
+    private Optional<URLRecord> visitPage(String link) {
+        try {
+            URL url = new URL(link);
+            URLConnection connection = url.openConnection();
+            String contentType = connection.getContentType();
+            System.out.println(link + " content type: " + contentType);
+            if (contentType != null && contentType.startsWith("text/html")) {
+                InputStream inputStream = connection.getInputStream();
+                String siteText = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                return Optional.of(new URLRecord(link, findTitle(siteText)));
+            }
+        } catch (MalformedURLException e) {
+            System.out.println("bad link: " + link);
+//            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("unavailable page: " + link);
+//            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    private List<String> fixLinks(String address, List<String> hrefAttributes) {
+        String protocol = getProtocol(address);
+        String rootAddress = getRootAddress(address);
+        System.out.println(protocol);
+        System.out.println(rootAddress);
+        List<String> result = new ArrayList<>();
+        for (String hrefAttribute : hrefAttributes) {
+            String fixedLink = "";
+            if (!hrefAttribute.contains("/")) {
+                fixedLink = rootAddress + "/" + hrefAttribute;
+            } else {
+                String hrefProtocol = getProtocol(hrefAttribute);
+                if (hrefProtocol.isEmpty()) {
+                    if (hrefAttribute.startsWith("//")) {
+                        fixedLink = protocol + hrefAttribute;
+                    } else if (hrefAttribute.equals("/")) {
+                        fixedLink = rootAddress;
+                    } else {
+                        fixedLink = protocol + "//" + hrefAttribute;
+                    }
+                } else {
+                    fixedLink = hrefAttribute;
+                }
+            }
+            System.out.println(hrefAttribute + " -> " + fixedLink);
+            result.add(fixedLink);
+        }
+        return result;
+    }
+
+    private String getRootAddress(String address) {
+        String protocol = getProtocol(address);
+        int lastSlashPosition = address.lastIndexOf("/");
+        System.out.println(lastSlashPosition);
+        return address.substring(0, (lastSlashPosition > protocol.length() + 2) ? lastSlashPosition : address.length());
+    }
+
+    private String getProtocol(String address) {
+        return address.substring(0, address.indexOf(":") + 1);
+    }
+
+    private List<String> getHrefAttributes(List<String> aTags) {
+        List<String> result = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\s*href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))");
+        for (String aTag : aTags) {
+//            System.out.println(aTag);
+            Matcher matcher = pattern.matcher(aTag);
+            if (matcher.find()) {
+                String url = matcher.group(1);
+                result.add(url.substring(1, url.length() - 1));
+//                System.out.println(matcher.group(1));
+            } else {
+//                System.out.println("not found");
+            }
+        }
+        return result;
     }
 
     private void clearTable() {
@@ -117,25 +237,25 @@ public class WebCrawler extends JFrame {
         final String baseUrl = textField.getText();
         for (URLRecord url : urls) {
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-            if (valudUrl(url.url)) {
+            if (validUrl(url.url)) {
                 tableModel.addRow(new String[]{url.url, url.title});
             }
-            System.out.println(url);
+            System.out.println("url: " + url);
         }
     }
 
-    private boolean valudUrl(String url) {
+    private boolean validUrl(String url) {
 //        URLConnection =
         return true;
     }
 
-    private List<URLRecord> getURLs(String siteText) {
-        List<URLRecord> result = new ArrayList<>();
+    private List<String> getATags(String siteText) {
+        List<String> result = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("<a\\s+href=['\\\"](.+)['\\\"]>(.+)</a>");
+        Pattern pattern = Pattern.compile("<a([^>]+)>(.+?)</a>");
         Matcher matcher = pattern.matcher(siteText);
         while (matcher.find()) {
-            result.add(new URLRecord(matcher.group(1), matcher.group(2)));
+            result.add(matcher.group(1));
         }
 
         return result;
@@ -150,8 +270,8 @@ public class WebCrawler extends JFrame {
         return table;
     }
 
-    private String getWebPage() {
-        final String url = textField.getText();
+    private String getWebPage(String url) {
+//        final String url = textField.getText();
         System.out.println(url);
         try (InputStream inputStream = new BufferedInputStream(new URL(url).openStream())) {
             String siteText = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);

@@ -3,9 +3,7 @@ package crawler;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -20,6 +18,7 @@ public class WebCrawler extends JFrame {
     JTextField textField;
     JLabel titleValueLabel;
     JTable table;
+    JTextField exportFilePath;
 
     class URLRecord {
         String url;
@@ -65,12 +64,20 @@ public class WebCrawler extends JFrame {
         JPanel panel = new JPanel();
 
         JLabel urlLabel = new JLabel("URL:");
+        JLabel exportLabel = new JLabel("Export:");
         textField = new JTextField("https://www.wikipedia.org", 20);
         textField.setName("UrlTextField");
+
+        exportFilePath = new JTextField("d:\\temp\\last.txt");
+        exportFilePath.setName("ExportUrlTextField");
 
         JButton button = new JButton("Parse");
         button.setName("RunButton");
         button.addActionListener(e -> parseClicked());
+
+        JButton exportButton = new JButton("Save");
+        exportButton.setName("ExportButton");
+        exportButton.addActionListener(e -> exportClicked());
 
         JLabel titleLabel = new JLabel("Title:");
 
@@ -91,6 +98,9 @@ public class WebCrawler extends JFrame {
         panel.add(titleLabel);
         panel.add(titleValueLabel);
         panel.add(scrollPane);
+        panel.add(exportLabel);
+        panel.add(exportFilePath);
+        panel.add(exportButton);
 
         layout.putConstraint(SpringLayout.NORTH, button, 5, SpringLayout.NORTH, panel);
         layout.putConstraint(SpringLayout.EAST, button, -5, SpringLayout.EAST, panel);
@@ -108,11 +118,42 @@ public class WebCrawler extends JFrame {
         layout.putConstraint(SpringLayout.WEST, scrollPane, 5, SpringLayout.WEST, panel);
         layout.putConstraint(SpringLayout.EAST, scrollPane, -5, SpringLayout.EAST, panel);
         layout.putConstraint(SpringLayout.NORTH, scrollPane, 5, SpringLayout.SOUTH, titleLabel);
-        layout.putConstraint(SpringLayout.SOUTH, scrollPane, -5, SpringLayout.SOUTH, panel);
+        layout.putConstraint(SpringLayout.SOUTH, scrollPane, -5, SpringLayout.NORTH, exportButton);
+
+        layout.putConstraint(SpringLayout.SOUTH, exportButton, -5, SpringLayout.SOUTH, panel);
+        layout.putConstraint(SpringLayout.EAST, exportButton, -5, SpringLayout.EAST, panel);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, exportFilePath, 0, SpringLayout.VERTICAL_CENTER, exportButton);
+        layout.putConstraint(SpringLayout.EAST, exportFilePath, -5, SpringLayout.WEST, button);
+        layout.putConstraint(SpringLayout.WEST, exportLabel, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.WEST, exportFilePath, 5, SpringLayout.EAST, exportLabel);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, exportLabel, 0, SpringLayout.VERTICAL_CENTER, exportButton);
 
         add(panel, BorderLayout.CENTER);
 
         setVisible(true);
+    }
+
+    private void exportClicked() {
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+        int columns = tableModel.getColumnCount();
+        int rows = tableModel.getRowCount();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                sb.append(tableModel.getValueAt(i, j)).append(System.lineSeparator());
+            }
+        }
+        System.out.println(sb);
+        saveToFile(exportFilePath.getText(), sb.toString());
+    }
+
+    private void saveToFile(String fileName, String content) {
+        File file = new File(fileName);
+        try (FileWriter writer = new FileWriter(file);) {
+            writer.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void parseClicked() {
@@ -153,6 +194,8 @@ public class WebCrawler extends JFrame {
         try {
             URL url = new URL(link);
             URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0");
             String contentType = connection.getContentType();
             System.out.println(link + " content type: " + contentType);
             if (contentType != null && contentType.startsWith("text/html")) {
@@ -235,8 +278,8 @@ public class WebCrawler extends JFrame {
 
     private void fillTable(List<URLRecord> urls) {
         final String baseUrl = textField.getText();
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         for (URLRecord url : urls) {
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
             if (validUrl(url.url)) {
                 tableModel.addRow(new String[]{url.url, url.title});
             }

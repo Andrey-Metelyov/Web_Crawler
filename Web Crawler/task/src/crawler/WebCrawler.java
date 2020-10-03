@@ -58,80 +58,209 @@ public class WebCrawler extends JFrame {
 
     public WebCrawler() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 300);
+        setSize(500, 225);
         setTitle("Web Crawler");
 
-        JPanel panel = new JPanel();
+        createInterface();
 
-        JLabel urlLabel = new JLabel("URL:");
-        JLabel exportLabel = new JLabel("Export:");
-        textField = new JTextField("https://www.wikipedia.org", 20);
-        textField.setName("UrlTextField");
-
-        exportFilePath = new JTextField("d:\\temp\\last.txt");
-        exportFilePath.setName("ExportUrlTextField");
-
-        JButton button = new JButton("Parse");
-        button.setName("RunButton");
-        button.addActionListener(e -> parseClicked());
-
-        JButton exportButton = new JButton("Save");
-        exportButton.setName("ExportButton");
-        exportButton.addActionListener(e -> exportClicked());
-
-        JLabel titleLabel = new JLabel("Title:");
-
-        titleValueLabel = new JLabel("Example text");
-        titleValueLabel.setName("TitleLabel");
-
-        table = createTable();
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        table.setFillsViewportHeight(true);
-        table.setEnabled(false);
-
-        SpringLayout layout = new SpringLayout();
-        panel.setLayout(layout);
-        panel.add(urlLabel);
-        panel.add(textField);
-        panel.add(button);
-        panel.add(titleLabel);
-        panel.add(titleValueLabel);
-        panel.add(scrollPane);
-        panel.add(exportLabel);
-        panel.add(exportFilePath);
-        panel.add(exportButton);
-
-        layout.putConstraint(SpringLayout.NORTH, button, 5, SpringLayout.NORTH, panel);
-        layout.putConstraint(SpringLayout.EAST, button, -5, SpringLayout.EAST, panel);
-        layout.putConstraint(SpringLayout.VERTICAL_CENTER, textField, 0, SpringLayout.VERTICAL_CENTER, button);
-        layout.putConstraint(SpringLayout.EAST, textField, -5, SpringLayout.WEST, button);
-        layout.putConstraint(SpringLayout.WEST, urlLabel, 5, SpringLayout.WEST, panel);
-        layout.putConstraint(SpringLayout.WEST, textField, 5, SpringLayout.EAST, urlLabel);
-        layout.putConstraint(SpringLayout.VERTICAL_CENTER, urlLabel, 0, SpringLayout.VERTICAL_CENTER, button);
-
-        layout.putConstraint(SpringLayout.WEST, titleLabel, 5, SpringLayout.WEST, panel);
-        layout.putConstraint(SpringLayout.NORTH, titleLabel, 5, SpringLayout.SOUTH, textField);
-        layout.putConstraint(SpringLayout.WEST, titleValueLabel, 5, SpringLayout.EAST, titleLabel);
-        layout.putConstraint(SpringLayout.NORTH, titleValueLabel, 5, SpringLayout.SOUTH, textField);
-
-        layout.putConstraint(SpringLayout.WEST, scrollPane, 5, SpringLayout.WEST, panel);
-        layout.putConstraint(SpringLayout.EAST, scrollPane, -5, SpringLayout.EAST, panel);
-        layout.putConstraint(SpringLayout.NORTH, scrollPane, 5, SpringLayout.SOUTH, titleLabel);
-        layout.putConstraint(SpringLayout.SOUTH, scrollPane, -5, SpringLayout.NORTH, exportButton);
-
-        layout.putConstraint(SpringLayout.SOUTH, exportButton, -5, SpringLayout.SOUTH, panel);
-        layout.putConstraint(SpringLayout.EAST, exportButton, -5, SpringLayout.EAST, panel);
-        layout.putConstraint(SpringLayout.VERTICAL_CENTER, exportFilePath, 0, SpringLayout.VERTICAL_CENTER, exportButton);
-        layout.putConstraint(SpringLayout.EAST, exportFilePath, -5, SpringLayout.WEST, button);
-        layout.putConstraint(SpringLayout.WEST, exportLabel, 5, SpringLayout.WEST, panel);
-        layout.putConstraint(SpringLayout.WEST, exportFilePath, 5, SpringLayout.EAST, exportLabel);
-        layout.putConstraint(SpringLayout.VERTICAL_CENTER, exportLabel, 0, SpringLayout.VERTICAL_CENTER, exportButton);
-
-        add(panel, BorderLayout.CENTER);
+//        pack();
 
         setVisible(true);
     }
+
+    private void createInterface() {
+        JPanel panel = new JPanel();
+
+        JButton exportButton = new JButton("Save");
+        JCheckBox depthCheckBox = new JCheckBox("Enabled");
+        JCheckBox timeLimitCheckBox = new JCheckBox("Enabled");
+        JLabel parsedLabel = new JLabel("0");
+        JTextField urlTextField = new JTextField("https://hi.hyperskill.org/", 60);
+        JTextField workersTextField = new JTextField("5");
+        JTextField depthTextField = new JTextField("50");
+        JTextField timeLimitTextField = new JTextField("120");
+        JTextField exportUrlTextField = new JTextField("d:\\temp\\lastCrawl.txt");
+        JToggleButton runButton = new JToggleButton("Run");
+
+        depthCheckBox.setName("DepthCheckBox");
+        depthTextField.setName("DepthTextField");
+        exportButton.setName("ExportButton");
+        exportUrlTextField.setName("ExportUrlTextField");
+        parsedLabel.setName("ParsedLabel");
+        runButton.setName("RunButton");
+        urlTextField.setName("UrlTextField");
+
+        JLabel elapsedTimeLabel = new JLabel("Elapsed time:");
+        JLabel elapsedTimeValueLabel = new JLabel("0:00");
+        JLabel exportLabel = new JLabel("Export:");
+        JLabel maximumDepthLabel = new JLabel("Maximum depth:");
+        JLabel parsedPagesLabel = new JLabel("Parsed pages:");
+        JLabel secondsLabel = new JLabel("seconds");
+        JLabel startUrlLabel = new JLabel("Start URL:");
+        JLabel timeLimitLabel = new JLabel("Time limit:");
+        JLabel workersLabel = new JLabel("Workers:");
+
+        SpringLayout layout = new SpringLayout();
+        panel.setLayout(layout);
+        panel.add(startUrlLabel);
+        panel.add(urlTextField);
+        panel.add(runButton);
+        panel.add(workersLabel);
+        panel.add(workersTextField);
+        panel.add(maximumDepthLabel);
+        panel.add(depthTextField);
+        panel.add(depthCheckBox);
+        panel.add(timeLimitLabel);
+        panel.add(timeLimitTextField);
+        panel.add(secondsLabel);
+        panel.add(timeLimitCheckBox);
+        panel.add(elapsedTimeLabel);
+        panel.add(elapsedTimeValueLabel);
+        panel.add(parsedPagesLabel);
+        panel.add(parsedLabel);
+        panel.add(exportLabel);
+        panel.add(exportUrlTextField);
+        panel.add(exportButton);
+
+        // labels
+        layout.putConstraint(SpringLayout.WEST, startUrlLabel, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.WEST, workersLabel, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.WEST, maximumDepthLabel, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.WEST, timeLimitLabel, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.WEST, elapsedTimeLabel, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.WEST, parsedPagesLabel, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.WEST, exportLabel, 5, SpringLayout.WEST, panel);
+
+        layout.putConstraint(SpringLayout.EAST, startUrlLabel, 0, SpringLayout.EAST, maximumDepthLabel);
+        layout.putConstraint(SpringLayout.EAST, workersLabel, 0, SpringLayout.EAST, maximumDepthLabel);
+        layout.putConstraint(SpringLayout.EAST, timeLimitLabel, 0, SpringLayout.EAST, maximumDepthLabel);
+        layout.putConstraint(SpringLayout.EAST, elapsedTimeLabel, 0, SpringLayout.EAST, maximumDepthLabel);
+        layout.putConstraint(SpringLayout.EAST, parsedPagesLabel, 0, SpringLayout.EAST, maximumDepthLabel);
+        layout.putConstraint(SpringLayout.EAST, exportLabel, 0, SpringLayout.EAST, maximumDepthLabel);
+
+        // Run button
+        layout.putConstraint(SpringLayout.NORTH, runButton, 5, SpringLayout.NORTH, panel);
+        layout.putConstraint(SpringLayout.EAST, runButton, -5, SpringLayout.EAST, panel);
+        // Start URL
+        layout.putConstraint(SpringLayout.EAST, urlTextField, -5, SpringLayout.WEST, runButton);
+        layout.putConstraint(SpringLayout.WEST, urlTextField, 5, SpringLayout.EAST, startUrlLabel);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, urlTextField, 0, SpringLayout.VERTICAL_CENTER, runButton);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, startUrlLabel, 0, SpringLayout.VERTICAL_CENTER, runButton);
+        // Workers text field
+        layout.putConstraint(SpringLayout.NORTH, workersTextField, 5, SpringLayout.SOUTH, runButton);
+        layout.putConstraint(SpringLayout.EAST, workersTextField, -5, SpringLayout.EAST, panel);
+        layout.putConstraint(SpringLayout.WEST, workersTextField, 5, SpringLayout.EAST, workersLabel);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, workersLabel, 0, SpringLayout.VERTICAL_CENTER, workersTextField);
+        // Maximum depth text field
+        layout.putConstraint(SpringLayout.NORTH, depthTextField, 5, SpringLayout.SOUTH, workersTextField);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, depthCheckBox, 0, SpringLayout.VERTICAL_CENTER, depthTextField);
+        layout.putConstraint(SpringLayout.EAST, depthCheckBox, -5, SpringLayout.EAST, panel);
+        layout.putConstraint(SpringLayout.EAST, depthTextField, -5, SpringLayout.WEST, depthCheckBox);
+        layout.putConstraint(SpringLayout.WEST, depthTextField, 5, SpringLayout.EAST, maximumDepthLabel);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, maximumDepthLabel, 0, SpringLayout.VERTICAL_CENTER, depthTextField);
+        // Time limit text field
+        layout.putConstraint(SpringLayout.NORTH, timeLimitTextField, 5, SpringLayout.SOUTH, depthTextField);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, timeLimitCheckBox, 0, SpringLayout.VERTICAL_CENTER, timeLimitTextField);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, secondsLabel, 0, SpringLayout.VERTICAL_CENTER, timeLimitTextField);
+        layout.putConstraint(SpringLayout.EAST, timeLimitCheckBox, -5, SpringLayout.EAST, panel);
+        layout.putConstraint(SpringLayout.EAST, secondsLabel, 0, SpringLayout.EAST, depthTextField);
+        layout.putConstraint(SpringLayout.EAST, timeLimitTextField, -5, SpringLayout.WEST, secondsLabel);
+        layout.putConstraint(SpringLayout.WEST, timeLimitTextField, 5, SpringLayout.EAST, timeLimitLabel);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, timeLimitLabel, 0, SpringLayout.VERTICAL_CENTER, timeLimitTextField);
+        // Time label
+        layout.putConstraint(SpringLayout.NORTH, elapsedTimeValueLabel, 5, SpringLayout.SOUTH, timeLimitTextField);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, elapsedTimeLabel, 0, SpringLayout.VERTICAL_CENTER, elapsedTimeValueLabel);
+        layout.putConstraint(SpringLayout.WEST, elapsedTimeValueLabel, 0, SpringLayout.WEST, timeLimitTextField);
+        // Parsed pages label
+        layout.putConstraint(SpringLayout.NORTH, parsedLabel, 5, SpringLayout.SOUTH, elapsedTimeValueLabel);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, parsedPagesLabel, 0, SpringLayout.VERTICAL_CENTER, parsedLabel);
+        layout.putConstraint(SpringLayout.WEST, parsedLabel, 0, SpringLayout.WEST, elapsedTimeValueLabel);
+        // Save button
+        layout.putConstraint(SpringLayout.NORTH, exportButton, 5, SpringLayout.SOUTH, parsedLabel);
+        layout.putConstraint(SpringLayout.EAST, exportButton, -5, SpringLayout.EAST, panel);
+        // Export text field
+        layout.putConstraint(SpringLayout.EAST, exportUrlTextField, -5, SpringLayout.WEST, exportButton);
+        layout.putConstraint(SpringLayout.WEST, exportUrlTextField, 5, SpringLayout.EAST, exportLabel);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, exportUrlTextField, 0, SpringLayout.VERTICAL_CENTER, exportButton);
+        layout.putConstraint(SpringLayout.VERTICAL_CENTER, exportLabel, 0, SpringLayout.VERTICAL_CENTER, exportButton);
+        // bottom
+        layout.putConstraint(SpringLayout.SOUTH, panel, 5, SpringLayout.SOUTH, exportUrlTextField);
+//        add(panel, BorderLayout.CENTER);
+        add(panel);
+
+        setPreferredSize(layout.preferredLayoutSize(this));
+    }
+
+//    private void createInterface() {
+//        JPanel panel = new JPanel();
+//
+//        JLabel urlLabel = new JLabel("URL:");
+//        JLabel exportLabel = new JLabel("Export:");
+//        textField = new JTextField("https://www.wikipedia.org", 20);
+//        textField.setName("UrlTextField");
+//
+//        exportFilePath = new JTextField("d:\\temp\\last.txt");
+//        exportFilePath.setName("ExportUrlTextField");
+//
+//        JButton button = new JButton("Parse");
+//        button.setName("RunButton");
+//        button.addActionListener(e -> parseClicked());
+//
+//        JButton exportButton = new JButton("Save");
+//        exportButton.setName("ExportButton");
+//        exportButton.addActionListener(e -> exportClicked());
+//
+//        JLabel titleLabel = new JLabel("Title:");
+//
+//        titleValueLabel = new JLabel("Example text");
+//        titleValueLabel.setName("TitleLabel");
+//
+//        table = createTable();
+//
+//        JScrollPane scrollPane = new JScrollPane(table);
+//        table.setFillsViewportHeight(true);
+//        table.setEnabled(false);
+//
+//        SpringLayout layout = new SpringLayout();
+//        panel.setLayout(layout);
+//        panel.add(urlLabel);
+//        panel.add(textField);
+//        panel.add(button);
+//        panel.add(titleLabel);
+//        panel.add(titleValueLabel);
+//        panel.add(scrollPane);
+//        panel.add(exportLabel);
+//        panel.add(exportFilePath);
+//        panel.add(exportButton);
+//
+//        layout.putConstraint(SpringLayout.NORTH, button, 5, SpringLayout.NORTH, panel);
+//        layout.putConstraint(SpringLayout.EAST, button, -5, SpringLayout.EAST, panel);
+//        layout.putConstraint(SpringLayout.VERTICAL_CENTER, textField, 0, SpringLayout.VERTICAL_CENTER, button);
+//        layout.putConstraint(SpringLayout.EAST, textField, -5, SpringLayout.WEST, button);
+//        layout.putConstraint(SpringLayout.WEST, urlLabel, 5, SpringLayout.WEST, panel);
+//        layout.putConstraint(SpringLayout.WEST, textField, 5, SpringLayout.EAST, urlLabel);
+//        layout.putConstraint(SpringLayout.VERTICAL_CENTER, urlLabel, 0, SpringLayout.VERTICAL_CENTER, button);
+//
+//        layout.putConstraint(SpringLayout.WEST, titleLabel, 5, SpringLayout.WEST, panel);
+//        layout.putConstraint(SpringLayout.NORTH, titleLabel, 5, SpringLayout.SOUTH, textField);
+//        layout.putConstraint(SpringLayout.WEST, titleValueLabel, 5, SpringLayout.EAST, titleLabel);
+//        layout.putConstraint(SpringLayout.NORTH, titleValueLabel, 5, SpringLayout.SOUTH, textField);
+//
+//        layout.putConstraint(SpringLayout.WEST, scrollPane, 5, SpringLayout.WEST, panel);
+//        layout.putConstraint(SpringLayout.EAST, scrollPane, -5, SpringLayout.EAST, panel);
+//        layout.putConstraint(SpringLayout.NORTH, scrollPane, 5, SpringLayout.SOUTH, titleLabel);
+//        layout.putConstraint(SpringLayout.SOUTH, scrollPane, -5, SpringLayout.NORTH, exportButton);
+//
+//        layout.putConstraint(SpringLayout.SOUTH, exportButton, -5, SpringLayout.SOUTH, panel);
+//        layout.putConstraint(SpringLayout.EAST, exportButton, -5, SpringLayout.EAST, panel);
+//        layout.putConstraint(SpringLayout.VERTICAL_CENTER, exportFilePath, 0, SpringLayout.VERTICAL_CENTER, exportButton);
+//        layout.putConstraint(SpringLayout.EAST, exportFilePath, -5, SpringLayout.WEST, button);
+//        layout.putConstraint(SpringLayout.WEST, exportLabel, 5, SpringLayout.WEST, panel);
+//        layout.putConstraint(SpringLayout.WEST, exportFilePath, 5, SpringLayout.EAST, exportLabel);
+//        layout.putConstraint(SpringLayout.VERTICAL_CENTER, exportLabel, 0, SpringLayout.VERTICAL_CENTER, exportButton);
+//
+//        add(panel, BorderLayout.CENTER);
+//    }
 
     private void exportClicked() {
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();

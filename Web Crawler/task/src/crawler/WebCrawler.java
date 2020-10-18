@@ -3,14 +3,18 @@ package crawler;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +23,22 @@ public class WebCrawler extends JFrame {
     JLabel titleValueLabel;
     JTable table;
     JTextField exportFilePath;
+    private JTextField workersTextField;
+    private JTextField depthTextField;
+    private JTextField timeLimitTextField;
+    private JTextField exportUrlTextField;
+    private JToggleButton runButton;
+    private JTextField urlTextField;
+    private JCheckBox depthCheckBox;
+    private JCheckBox timeLimitCheckBox;
+    private JLabel parsedLabel;
+    private ConcurrentLinkedQueue<URLTask> taskQueue = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<URLRecord> resultQueue = new ConcurrentLinkedQueue<>();
+    private ConcurrentHashMap<String, String> resultMap = new ConcurrentHashMap<>();
+    private ConcurrentSkipListSet<String> processedLinks = new ConcurrentSkipListSet<>();
+    private ExecutorService executor;
+    private JLabel elapsedTimeValueLabel;
+    private Timer timer;
 
     class URLRecord {
         String url;
@@ -72,15 +92,15 @@ public class WebCrawler extends JFrame {
         JPanel panel = new JPanel();
 
         JButton exportButton = new JButton("Save");
-        JCheckBox depthCheckBox = new JCheckBox("Enabled");
-        JCheckBox timeLimitCheckBox = new JCheckBox("Enabled");
-        JLabel parsedLabel = new JLabel("0");
-        JTextField urlTextField = new JTextField("https://hi.hyperskill.org/", 60);
-        JTextField workersTextField = new JTextField("5");
-        JTextField depthTextField = new JTextField("50");
-        JTextField timeLimitTextField = new JTextField("120");
-        JTextField exportUrlTextField = new JTextField("d:\\temp\\lastCrawl.txt");
-        JToggleButton runButton = new JToggleButton("Run");
+        depthCheckBox = new JCheckBox("Enabled");
+        timeLimitCheckBox = new JCheckBox("Enabled");
+        parsedLabel = new JLabel("0");
+        urlTextField = new JTextField("https://hi.hyperskill.org/", 60);
+        workersTextField = new JTextField("5");
+        depthTextField = new JTextField("50");
+        timeLimitTextField = new JTextField("120");
+        exportUrlTextField = new JTextField("d:\\temp\\lastCrawl.txt");
+        runButton = new JToggleButton("Run");
 
         depthCheckBox.setName("DepthCheckBox");
         depthTextField.setName("DepthTextField");
@@ -90,8 +110,11 @@ public class WebCrawler extends JFrame {
         runButton.setName("RunButton");
         urlTextField.setName("UrlTextField");
 
+        runButton.addActionListener(e -> runButtonClicked());
+        exportButton.addActionListener(e -> exportButtonClicked());
+
         JLabel elapsedTimeLabel = new JLabel("Elapsed time:");
-        JLabel elapsedTimeValueLabel = new JLabel("0:00");
+        elapsedTimeValueLabel = new JLabel("0:00");
         JLabel exportLabel = new JLabel("Export:");
         JLabel maximumDepthLabel = new JLabel("Maximum depth:");
         JLabel parsedPagesLabel = new JLabel("Parsed pages:");
@@ -189,6 +212,129 @@ public class WebCrawler extends JFrame {
         add(panel);
 
         setPreferredSize(layout.preferredLayoutSize(this));
+    }
+
+    private void exportButtonClicked() {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : resultMap.entrySet()) {
+            sb.append(entry.getKey());
+            sb.append(System.lineSeparator());
+            sb.append(entry.getValue());
+            sb.append(System.lineSeparator());
+        }
+        saveToFile(exportUrlTextField.getText(), sb.toString());
+    }
+
+    private void runButtonClicked() {
+        System.out.println("Run clicked!");
+        URL startUrl = null;
+        try {
+            startUrl = new URL(urlTextField.getText());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return;
+        }
+        boolean maxDepthEnabled = depthCheckBox.isSelected();
+        boolean timeLimitEnabled = timeLimitCheckBox.isSelected();
+        int workers = Integer.parseInt(workersTextField.getText());
+        int maxDepth = maxDepthEnabled ? Integer.parseInt(depthTextField.getText()) : Integer.MAX_VALUE;
+        int timeLimit = Integer.parseInt(timeLimitTextField.getText());
+        long startTime = System.currentTimeMillis();
+
+        executor = Executors.newFixedThreadPool(workers);
+
+        timer = new Timer(1000, e -> {
+            long elapsed = (System.currentTimeMillis() - startTime) / 1000;
+            long minutes = elapsed / 60;
+            int seconds = (int) (elapsed % 60);
+            elapsedTimeValueLabel.setText(minutes + ":" + (seconds < 10 ? "0" + seconds : seconds));
+            parsedLabel.setText(String.valueOf(resultMap.size()));
+            if (timeLimitEnabled && elapsed > timeLimit) {
+                System.out.println("time limit reached!");
+                executor.shutdownNow();
+                timer.stop();
+            }
+        });
+
+        timer.start();
+
+
+//        URL finalStartUrl = startUrl;
+//        executor.submit(() -> {
+//            processUrl(finalStartUrl, 0);
+//        });
+        startTask(startUrl, 0, maxDepth);
+//        processUrl(startUrl);
+//        System.out.println(visitPage(startUrl).get());
+    }
+
+    private void startTask(URL url, int level, int maxDepth) {
+        if (!processedLinks.contains(url.toString())) {
+            processedLinks.add(url.toString());
+            System.out.println("Start task: " + url + ", level: " + level);
+            executor.submit(() -> {
+                processUrl(url, level, maxDepth);
+            });
+        } else {
+            System.out.println("Already done: " + url);
+        }
+    }
+
+    private void processUrl(URL url, int level, int maxDepth) {
+        try {
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0");
+            String contentType = connection.getContentType();
+//        System.out.println(url + " content type: " + contentType);
+            if (contentType != null && contentType.startsWith("text/html")) {
+                InputStream inputStream = connection.getInputStream();
+                String siteText = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                String siteTitle = findTitle(siteText);
+                List<URL> siteUrls = findUrls(url, siteText);
+                if (level < maxDepth) {
+                    List<URLTask> tasks = makeURLTasks(siteUrls, level);
+                    for (URLTask task : tasks) {
+                        startTask(task.url, task.level, maxDepth);
+                    }
+                }
+//                System.out.println(url + siteTitle + siteUrls);
+
+//                resultQueue.add(new URLRecord(url.toString(), siteTitle));
+                resultMap.put(url.toString(), siteTitle);
+//                taskQueue.addAll(tasks);
+            }
+        } catch (IOException e) {
+            System.out.println("bad url: " + url);
+//            e.printStackTrace();
+        }
+    }
+
+    private List<URLTask> makeURLTasks(List<URL> siteUrls, int level) {
+        List<URLTask> result = new ArrayList<>();
+        for (URL url : siteUrls) {
+            result.add(new URLTask(url, level + 1));
+        }
+        return result;
+    }
+
+    private List<URL> findUrls(URL context, String siteText) {
+        List<URL> result = new ArrayList<>();
+        List<String> aTags = getATags(siteText);
+        List<String> hrefAttributes = getHrefAttributes(aTags);
+//        System.out.println("hrefAttributes: " + hrefAttributes);
+//        List<String> links = fixLinks(address, hrefAttributes);
+//        System.out.println("links: " + links);
+        for (String hrefAttribute : hrefAttributes) {
+            try {
+                result.add(new URL(context, hrefAttribute));
+            } catch (MalformedURLException e) {
+                System.out.println("bad link: " + context + " " + hrefAttribute);
+//                e.printStackTrace();
+            }
+        }
+//        System.out.println("links: " + result);
+        return result;
     }
 
 //    private void createInterface() {
@@ -465,6 +611,17 @@ public class WebCrawler extends JFrame {
             return matcher.group(1);
         } else {
             return "";
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            URL context = new URL("https://www.wikipedia.org/");
+//            URL url = new URL(context, "//ast.wikipedia.org/");
+            URL url = new URL(context, "//www.wikipedia.ru");
+            System.out.println(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 }

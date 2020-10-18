@@ -477,6 +477,225 @@ files:
     http://localhost:25555/circular3
     circular3tiTle
   learner_created: true
+- name: src/crawler/URLTask.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/59/stages/322/implement
-status: Unchecked
+status: Failed
+feedback:
+  message: "\nFAILURE: Build failed with an exception.\n\n* Where:\nSettings file\
+    \ &#39;C:\\Projects\\Web_Crawler\\settings.gradle&#39;\n\n* What went wrong:\n\
+    Could not compile settings file &#39;C:\\Projects\\Web_Crawler\\settings.gradle&#39;.\n\
+    &gt; startup failed:\n  General error during semantic analysis: Unsupported class\
+    \ file major version 57\n  \n  java.lang.IllegalArgumentException: Unsupported\
+    \ class file major version 57\n  \tat groovyjarjarasm.asm.ClassReader.&lt;init&gt;(ClassReader.java:184)\n\
+    \  \tat groovyjarjarasm.asm.ClassReader.&lt;init&gt;(ClassReader.java:166)\n \
+    \ \tat groovyjarjarasm.asm.ClassReader.&lt;init&gt;(ClassReader.java:152)\n  \t\
+    at groovyjarjarasm.asm.ClassReader.&lt;init&gt;(ClassReader.java:273)\n  \tat\
+    \ org.codehaus.groovy.ast.decompiled.AsmDecompiler.parseClass(AsmDecompiler.java:81)\n\
+    \  \tat org.codehaus.groovy.control.ClassNodeResolver.findDecompiled(ClassNodeResolver.java:254)\n\
+    \  \tat org.codehaus.groovy.control.ClassNodeResolver.tryAsLoaderClassOrScript(ClassNodeResolver.java:192)\n\
+    \  \tat org.codehaus.groovy.control.ClassNodeResolver.findClassNode(ClassNodeResolver.java:172)\n\
+    \  \tat org.codehaus.groovy.control.ClassNodeResolver.resolveName(ClassNodeResolver.java:128)\n\
+    \  \tat org.codehaus.groovy.ast.decompiled.AsmReferenceResolver.resolveClassNullable(AsmReferenceResolver.java:59)\n\
+    \  \tat org.codehaus.groovy.ast.decompiled.AsmReferenceResolver.resolveClass(AsmReferenceResolver.java:46)\n\
+    \  \tat org.codehaus.groovy.ast.decompiled.AsmReferenceResolver.resolveNonArrayType(AsmReferenceResolver.java:81)\n\
+    \  \tat org.codehaus.groovy.ast.decompiled.AsmReferenceResolver.resolveType(AsmReferenceResolver.java:72)\n\
+    \  \tat org.codehaus.groovy.ast.decompiled.MemberSignatureParser.createMethodNode(MemberSignatureParser.java:55)\n\
+    \  \tat org.codehaus.groovy.ast.decompiled.DecompiledClassNode.lazyInitMembers(DecompiledClassNode.java:195)\n\
+    \  \tat org.codehaus.groovy.ast.decompiled.DecompiledClassNode.getDeclaredMethods(DecompiledClassNode.java:121)\n\
+    \  \tat org.codehaus.groovy.ast.ClassNode.getMethods(ClassNode.java:912)\n  \t\
+    at org.codehaus.groovy.ast.ClassNode.tryFindPossibleMethod(ClassNode.java:1280)\n\
+    \  \tat org.codehaus.groovy.control.StaticImportVisitor.transformMethodCallExpression(StaticImportVisitor.java:252)\n\
+    \  \tat org.codehaus.groovy.control.StaticImportVisitor.transform(StaticImportVisitor.java:112)\n\
+    \  \tat org.codehaus.groovy.ast.ClassCodeExpressionTransformer.visitExpressionStatement(ClassCodeExpressionTransformer.java:144)\n\
+    \  \tat org.codehaus.groovy.ast.stmt.ExpressionStatement.visit(ExpressionStatement.java:42)\n\
+    \  \tat org.codehaus.groovy.ast.ClassCodeVisitorSupport.visitClassCodeContainer(ClassCodeVisitorSupport.java:110)\n\
+    \  \tat org.codehaus.groovy.ast.ClassCodeVisitorSupport.visitConstructorOrMethod(ClassCodeVisitorSupport.java:121)\n\
+    \  \tat org.codehaus.groovy.ast.ClassCodeExpressionTransformer.visitConstructorOrMethod(ClassCodeExpressionTransformer.java:55)\n\
+    \  \tat org.codehaus.groovy.control.StaticImportVisitor.visitConstructorOrMethod(StaticImportVisitor.java:88)\n\
+    \  \tat org.codehaus.groovy.ast.ClassCodeVisitorSupport.visitConstructor(ClassCodeVisitorSupport.java:128)\n\
+    \  \tat org.codehaus.groovy.ast.ClassNode.visitContents(ClassNode.java:1099)\n\
+    \  \tat org.codehaus.groovy.ast.ClassCodeVisitorSupport.visitClass(ClassCodeVisitorSupport.java:54)\n\
+    \  \tat org.codehaus.groovy.control.StaticImportVisitor.visitClass(StaticImportVisitor.java:82)\n\
+    \  \tat org.codehaus.groovy.control.CompilationUnit$14.call(CompilationUnit.java:717)\n\
+    \  \tat org.codehaus.groovy.control.CompilationUnit.applyToPrimaryClassNodes(CompilationUnit.java:1095)\n\
+    \  \tat org.codehaus.groovy.control.CompilationUnit.doPhaseOperation(CompilationUnit.java:649)\n\
+    \  \tat org.codehaus.groovy.control.CompilationUnit.processPhaseOperations(CompilationUnit.java:627)\n\
+    \  \tat org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:604)\n\
+    \  \tat groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:390)\n\
+    \  \tat groovy.lang.GroovyClassLoader.access$300(GroovyClassLoader.java:89)\n\
+    \  \tat groovy.lang.GroovyClassLoader$5.provide(GroovyClassLoader.java:330)\n\
+    \  \tat groovy.lang.GroovyClassLoader$5.provide(GroovyClassLoader.java:327)\n\
+    \  \tat org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:147)\n\
+    \  \tat groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:325)\n\
+    \  \tat org.gradle.groovy.scripts.internal.DefaultScriptCompilationHandler.compileScript(DefaultScriptCompilationHandler.java:133)\n\
+    \  \tat org.gradle.groovy.scripts.internal.DefaultScriptCompilationHandler.compileToDir(DefaultScriptCompilationHandler.java:93)\n\
+    \  \tat org.gradle.groovy.scripts.internal.BuildOperationBackedScriptCompilationHandler$2.run(BuildOperationBackedScriptCompilationHandler.java:54)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:402)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:394)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:92)\n\
+    \  \tat org.gradle.internal.operations.DelegatingBuildOperationExecutor.run(DelegatingBuildOperationExecutor.java:31)\n\
+    \  \tat org.gradle.groovy.scripts.internal.BuildOperationBackedScriptCompilationHandler.compileToDir(BuildOperationBackedScriptCompilationHandler.java:51)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler$CompileToCrossBuildCacheAction.execute(FileCacheBackedScriptClassCompiler.java:151)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler$CompileToCrossBuildCacheAction.execute(FileCacheBackedScriptClassCompiler.java:132)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler$ProgressReportingInitializer.execute(FileCacheBackedScriptClassCompiler.java:175)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler$ProgressReportingInitializer.execute(FileCacheBackedScriptClassCompiler.java:155)\n\
+    \  \tat org.gradle.cache.internal.DefaultPersistentDirectoryCache$Initializer.initialize(DefaultPersistentDirectoryCache.java:98)\n\
+    \  \tat org.gradle.cache.internal.FixedSharedModeCrossProcessCacheAccess$1.run(FixedSharedModeCrossProcessCacheAccess.java:85)\n\
+    \  \tat org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:207)\n\
+    \  \tat org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:197)\n\
+    \  \tat org.gradle.cache.internal.FixedSharedModeCrossProcessCacheAccess.open(FixedSharedModeCrossProcessCacheAccess.java:83)\n\
+    \  \tat org.gradle.cache.internal.DefaultCacheAccess.open(DefaultCacheAccess.java:142)\n\
+    \  \tat org.gradle.cache.internal.DefaultPersistentDirectoryStore.open(DefaultPersistentDirectoryStore.java:78)\n\
+    \  \tat org.gradle.cache.internal.DefaultPersistentDirectoryStore.open(DefaultPersistentDirectoryStore.java:42)\n\
+    \  \tat org.gradle.cache.internal.DefaultCacheFactory.doOpen(DefaultCacheFactory.java:94)\n\
+    \  \tat org.gradle.cache.internal.DefaultCacheFactory.open(DefaultCacheFactory.java:68)\n\
+    \  \tat org.gradle.cache.internal.DefaultCacheRepository$PersistentCacheBuilder.open(DefaultCacheRepository.java:118)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler$RemapBuildScriptsAction.execute(FileCacheBackedScriptClassCompiler.java:421)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler$RemapBuildScriptsAction.execute(FileCacheBackedScriptClassCompiler.java:390)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler$ProgressReportingInitializer.execute(FileCacheBackedScriptClassCompiler.java:175)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler$ProgressReportingInitializer.execute(FileCacheBackedScriptClassCompiler.java:155)\n\
+    \  \tat org.gradle.cache.internal.DefaultPersistentDirectoryCache$Initializer.initialize(DefaultPersistentDirectoryCache.java:98)\n\
+    \  \tat org.gradle.cache.internal.FixedSharedModeCrossProcessCacheAccess$1.run(FixedSharedModeCrossProcessCacheAccess.java:85)\n\
+    \  \tat org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:207)\n\
+    \  \tat org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:197)\n\
+    \  \tat org.gradle.cache.internal.FixedSharedModeCrossProcessCacheAccess.open(FixedSharedModeCrossProcessCacheAccess.java:83)\n\
+    \  \tat org.gradle.cache.internal.DefaultCacheAccess.open(DefaultCacheAccess.java:142)\n\
+    \  \tat org.gradle.cache.internal.DefaultPersistentDirectoryStore.open(DefaultPersistentDirectoryStore.java:78)\n\
+    \  \tat org.gradle.cache.internal.DefaultPersistentDirectoryStore.open(DefaultPersistentDirectoryStore.java:42)\n\
+    \  \tat org.gradle.cache.internal.DefaultCacheFactory.doOpen(DefaultCacheFactory.java:94)\n\
+    \  \tat org.gradle.cache.internal.DefaultCacheFactory.open(DefaultCacheFactory.java:68)\n\
+    \  \tat org.gradle.cache.internal.DefaultCacheRepository$PersistentCacheBuilder.open(DefaultCacheRepository.java:118)\n\
+    \  \tat org.gradle.groovy.scripts.internal.FileCacheBackedScriptClassCompiler.compile(FileCacheBackedScriptClassCompiler.java:105)\n\
+    \  \tat org.gradle.groovy.scripts.internal.CrossBuildInMemoryCachingScriptClassCache.getOrCompile(CrossBuildInMemoryCachingScriptClassCache.java:49)\n\
+    \  \tat org.gradle.groovy.scripts.internal.BuildScopeInMemoryCachingScriptClassCompiler.compile(BuildScopeInMemoryCachingScriptClassCompiler.java:50)\n\
+    \  \tat org.gradle.groovy.scripts.DefaultScriptCompilerFactory$ScriptCompilerImpl.compile(DefaultScriptCompilerFactory.java:50)\n\
+    \  \tat org.gradle.configuration.DefaultScriptPluginFactory$ScriptPluginImpl.apply(DefaultScriptPluginFactory.java:194)\n\
+    \  \tat org.gradle.configuration.BuildOperationScriptPlugin$1$1.run(BuildOperationScriptPlugin.java:69)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:402)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:394)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:92)\n\
+    \  \tat org.gradle.internal.operations.DelegatingBuildOperationExecutor.run(DelegatingBuildOperationExecutor.java:31)\n\
+    \  \tat org.gradle.configuration.BuildOperationScriptPlugin$1.execute(BuildOperationScriptPlugin.java:66)\n\
+    \  \tat org.gradle.configuration.BuildOperationScriptPlugin$1.execute(BuildOperationScriptPlugin.java:63)\n\
+    \  \tat org.gradle.configuration.internal.DefaultUserCodeApplicationContext.apply(DefaultUserCodeApplicationContext.java:48)\n\
+    \  \tat org.gradle.configuration.BuildOperationScriptPlugin.apply(BuildOperationScriptPlugin.java:63)\n\
+    \  \tat org.gradle.initialization.ScriptEvaluatingSettingsProcessor.applySettingsScript(ScriptEvaluatingSettingsProcessor.java:69)\n\
+    \  \tat org.gradle.initialization.ScriptEvaluatingSettingsProcessor.process(ScriptEvaluatingSettingsProcessor.java:61)\n\
+    \  \tat org.gradle.initialization.PropertiesLoadingSettingsProcessor.process(PropertiesLoadingSettingsProcessor.java:37)\n\
+    \  \tat org.gradle.initialization.SettingsEvaluatedCallbackFiringSettingsProcessor.process(SettingsEvaluatedCallbackFiringSettingsProcessor.java:34)\n\
+    \  \tat org.gradle.initialization.RootBuildCacheControllerSettingsProcessor.process(RootBuildCacheControllerSettingsProcessor.java:36)\n\
+    \  \tat org.gradle.initialization.BuildOperationSettingsProcessor$2.call(BuildOperationSettingsProcessor.java:50)\n\
+    \  \tat org.gradle.initialization.BuildOperationSettingsProcessor$2.call(BuildOperationSettingsProcessor.java:47)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:416)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:406)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:102)\n\
+    \  \tat org.gradle.internal.operations.DelegatingBuildOperationExecutor.call(DelegatingBuildOperationExecutor.java:36)\n\
+    \  \tat org.gradle.initialization.BuildOperationSettingsProcessor.process(BuildOperationSettingsProcessor.java:47)\n\
+    \  \tat org.gradle.initialization.DefaultSettingsLoader.findSettingsAndLoadIfAppropriate(DefaultSettingsLoader.java:104)\n\
+    \  \tat org.gradle.initialization.DefaultSettingsLoader.findAndLoadSettings(DefaultSettingsLoader.java:45)\n\
+    \  \tat org.gradle.initialization.SettingsAttachingSettingsLoader.findAndLoadSettings(SettingsAttachingSettingsLoader.java:35)\n\
+    \  \tat org.gradle.internal.composite.CommandLineIncludedBuildSettingsLoader.findAndLoadSettings(CommandLineIncludedBuildSettingsLoader.java:34)\n\
+    \  \tat org.gradle.internal.composite.ChildBuildRegisteringSettingsLoader.findAndLoadSettings(ChildBuildRegisteringSettingsLoader.java:47)\n\
+    \  \tat org.gradle.internal.composite.CompositeBuildSettingsLoader.findAndLoadSettings(CompositeBuildSettingsLoader.java:35)\n\
+    \  \tat org.gradle.initialization.DefaultGradleLauncher$LoadBuild.run(DefaultGradleLauncher.java:277)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:402)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$RunnableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:394)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.run(DefaultBuildOperationExecutor.java:92)\n\
+    \  \tat org.gradle.internal.operations.DelegatingBuildOperationExecutor.run(DelegatingBuildOperationExecutor.java:31)\n\
+    \  \tat org.gradle.initialization.DefaultGradleLauncher.loadSettings(DefaultGradleLauncher.java:202)\n\
+    \  \tat org.gradle.initialization.DefaultGradleLauncher.doBuildStages(DefaultGradleLauncher.java:147)\n\
+    \  \tat org.gradle.initialization.DefaultGradleLauncher.executeTasks(DefaultGradleLauncher.java:134)\n\
+    \  \tat org.gradle.internal.invocation.GradleBuildController$1.execute(GradleBuildController.java:58)\n\
+    \  \tat org.gradle.internal.invocation.GradleBuildController$1.execute(GradleBuildController.java:55)\n\
+    \  \tat org.gradle.internal.invocation.GradleBuildController$3.create(GradleBuildController.java:82)\n\
+    \  \tat org.gradle.internal.invocation.GradleBuildController$3.create(GradleBuildController.java:75)\n\
+    \  \tat org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:183)\n\
+    \  \tat org.gradle.internal.work.StopShieldingWorkerLeaseService.withLocks(StopShieldingWorkerLeaseService.java:40)\n\
+    \  \tat org.gradle.internal.invocation.GradleBuildController.doBuild(GradleBuildController.java:75)\n\
+    \  \tat org.gradle.internal.invocation.GradleBuildController.run(GradleBuildController.java:55)\n\
+    \  \tat org.gradle.tooling.internal.provider.ExecuteBuildActionRunner.run(ExecuteBuildActionRunner.java:31)\n\
+    \  \tat org.gradle.launcher.exec.ChainingBuildActionRunner.run(ChainingBuildActionRunner.java:35)\n\
+    \  \tat org.gradle.launcher.exec.BuildOutcomeReportingBuildActionRunner.run(BuildOutcomeReportingBuildActionRunner.java:58)\n\
+    \  \tat org.gradle.tooling.internal.provider.ValidatingBuildActionRunner.run(ValidatingBuildActionRunner.java:32)\n\
+    \  \tat org.gradle.launcher.exec.BuildCompletionNotifyingBuildActionRunner.run(BuildCompletionNotifyingBuildActionRunner.java:39)\n\
+    \  \tat org.gradle.launcher.exec.RunAsBuildOperationBuildActionRunner$3.call(RunAsBuildOperationBuildActionRunner.java:51)\n\
+    \  \tat org.gradle.launcher.exec.RunAsBuildOperationBuildActionRunner$3.call(RunAsBuildOperationBuildActionRunner.java:45)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:416)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$CallableBuildOperationWorker.execute(DefaultBuildOperationExecutor.java:406)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor$1.execute(DefaultBuildOperationExecutor.java:165)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:250)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.execute(DefaultBuildOperationExecutor.java:158)\n\
+    \  \tat org.gradle.internal.operations.DefaultBuildOperationExecutor.call(DefaultBuildOperationExecutor.java:102)\n\
+    \  \tat org.gradle.internal.operations.DelegatingBuildOperationExecutor.call(DelegatingBuildOperationExecutor.java:36)\n\
+    \  \tat org.gradle.launcher.exec.RunAsBuildOperationBuildActionRunner.run(RunAsBuildOperationBuildActionRunner.java:45)\n\
+    \  \tat org.gradle.launcher.exec.InProcessBuildActionExecuter$1.transform(InProcessBuildActionExecuter.java:49)\n\
+    \  \tat org.gradle.launcher.exec.InProcessBuildActionExecuter$1.transform(InProcessBuildActionExecuter.java:46)\n\
+    \  \tat org.gradle.composite.internal.DefaultRootBuildState.run(DefaultRootBuildState.java:78)\n\
+    \  \tat org.gradle.launcher.exec.InProcessBuildActionExecuter.execute(InProcessBuildActionExecuter.java:46)\n\
+    \  \tat org.gradle.launcher.exec.InProcessBuildActionExecuter.execute(InProcessBuildActionExecuter.java:31)\n\
+    \  \tat org.gradle.launcher.exec.BuildTreeScopeBuildActionExecuter.execute(BuildTreeScopeBuildActionExecuter.java:42)\n\
+    \  \tat org.gradle.launcher.exec.BuildTreeScopeBuildActionExecuter.execute(BuildTreeScopeBuildActionExecuter.java:28)\n\
+    \  \tat org.gradle.tooling.internal.provider.ContinuousBuildActionExecuter.execute(ContinuousBuildActionExecuter.java:78)\n\
+    \  \tat org.gradle.tooling.internal.provider.ContinuousBuildActionExecuter.execute(ContinuousBuildActionExecuter.java:52)\n\
+    \  \tat org.gradle.tooling.internal.provider.SubscribableBuildActionExecuter.execute(SubscribableBuildActionExecuter.java:59)\n\
+    \  \tat org.gradle.tooling.internal.provider.SubscribableBuildActionExecuter.execute(SubscribableBuildActionExecuter.java:36)\n\
+    \  \tat org.gradle.tooling.internal.provider.SessionScopeBuildActionExecuter.execute(SessionScopeBuildActionExecuter.java:68)\n\
+    \  \tat org.gradle.tooling.internal.provider.SessionScopeBuildActionExecuter.execute(SessionScopeBuildActionExecuter.java:38)\n\
+    \  \tat org.gradle.tooling.internal.provider.GradleThreadBuildActionExecuter.execute(GradleThreadBuildActionExecuter.java:37)\n\
+    \  \tat org.gradle.tooling.internal.provider.GradleThreadBuildActionExecuter.execute(GradleThreadBuildActionExecuter.java:26)\n\
+    \  \tat org.gradle.tooling.internal.provider.ParallelismConfigurationBuildActionExecuter.execute(ParallelismConfigurationBuildActionExecuter.java:43)\n\
+    \  \tat org.gradle.tooling.internal.provider.ParallelismConfigurationBuildActionExecuter.execute(ParallelismConfigurationBuildActionExecuter.java:29)\n\
+    \  \tat org.gradle.tooling.internal.provider.StartParamsValidatingActionExecuter.execute(StartParamsValidatingActionExecuter.java:60)\n\
+    \  \tat org.gradle.tooling.internal.provider.StartParamsValidatingActionExecuter.execute(StartParamsValidatingActionExecuter.java:32)\n\
+    \  \tat org.gradle.tooling.internal.provider.SessionFailureReportingActionExecuter.execute(SessionFailureReportingActionExecuter.java:55)\n\
+    \  \tat org.gradle.tooling.internal.provider.SessionFailureReportingActionExecuter.execute(SessionFailureReportingActionExecuter.java:41)\n\
+    \  \tat org.gradle.tooling.internal.provider.SetupLoggingActionExecuter.execute(SetupLoggingActionExecuter.java:48)\n\
+    \  \tat org.gradle.tooling.internal.provider.SetupLoggingActionExecuter.execute(SetupLoggingActionExecuter.java:32)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.ExecuteBuild.doBuild(ExecuteBuild.java:67)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:36)\n\
+    \  \tat org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.WatchForDisconnection.execute(WatchForDisconnection.java:37)\n\
+    \  \tat org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.ResetDeprecationLogger.execute(ResetDeprecationLogger.java:26)\n\
+    \  \tat org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.RequestStopIfSingleUsedDaemon.execute(RequestStopIfSingleUsedDaemon.java:34)\n\
+    \  \tat org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.ForwardClientInput$2.call(ForwardClientInput.java:74)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.ForwardClientInput$2.call(ForwardClientInput.java:72)\n\
+    \  \tat org.gradle.util.Swapper.swap(Swapper.java:38)\n  \tat org.gradle.launcher.daemon.server.exec.ForwardClientInput.execute(ForwardClientInput.java:72)\n\
+    \  \tat org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.LogAndCheckHealth.execute(LogAndCheckHealth.java:55)\n\
+    \  \tat org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.LogToClient.doBuild(LogToClient.java:62)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:36)\n\
+    \  \tat org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.EstablishBuildEnvironment.doBuild(EstablishBuildEnvironment.java:81)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.BuildCommandOnly.execute(BuildCommandOnly.java:36)\n\
+    \  \tat org.gradle.launcher.daemon.server.api.DaemonCommandExecution.proceed(DaemonCommandExecution.java:104)\n\
+    \  \tat org.gradle.launcher.daemon.server.exec.StartBuildOrRespondWithBusy$1.run(StartBuildOrRespondWithBusy.java:50)\n\
+    \  \tat org.gradle.launcher.daemon.server.DaemonStateCoordinator$1.run(DaemonStateCoordinator.java:295)\n\
+    \  \tat org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)\n\
+    \  \tat org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)\n\
+    \  \tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\
+    \  \tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\
+    \  \tat org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)\n\
+    \  \tat java.base/java.lang.Thread.run(Thread.java:830)\n  \n  1 error\n\n\n*\
+    \ Try:\nRun with --stacktrace option to get the stack trace. Run with --info or\
+    \ --debug option to get more log output. Run with --scan to get full insights.\n\
+    \n* Get more help at https://help.gradle.org\n\nBUILD FAILED in 1s\n"
+  time: Sun, 18 Oct 2020 09:29:21 UTC
 record: -1
